@@ -2,3 +2,6 @@
 
 proj4_code/__pycache__/
 unit_tests/__pycache__/
+
+unit_tests/__init__.pyc
+
