@@ -57,7 +57,6 @@ def calculate_disparity_map(left_img: torch.Tensor,
   
   # raise NotImplementedError('calculate_disparity_map not implemented')
 
-#   print(block_size)
   H, W, C = left_img.shape
   half = block_size//2
 
@@ -126,7 +125,25 @@ def calculate_cost_volume(left_img: torch.Tensor,
   # Student code begin
   ############################################################################
 
-  raise NotImplementedError('calculate_cost_volume not implemented')
+  # raise NotImplementedError('calculate_cost_volume not implemented')
+  
+  H, W, C = left_img.shape
+  half = block_size//2
+
+  cost_volume = torch.zeros(H - 2*half,W - 2*half, max_disparity)
+
+  has_somthing = []
+
+  for y in range(half, H - half):
+      for x in range(half, W - half):
+          D = torch.full((max_disparity,),255)
+
+          max_offset = min(x-half,max_disparity - 1)
+          for offset in range(max_offset + 1):
+            curr_error = sim_measure_function(left_img[y-half:y+half + 1, x-half:x+half + 1],
+                                                right_img[y-half:y+half + 1, x-half-offset:x+half-offset + 1])
+            D[offset] = curr_error
+          cost_volume[y-half,x-half] = D
 
   ############################################################################
   # Student code end
