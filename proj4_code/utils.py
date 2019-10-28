@@ -68,10 +68,14 @@ def generate_random_stereogram(im_size: Tuple[int, int, int] = (51, 51, 3), disp
   im_right[H//2 - H//4:H//2 + H//4 + 1, W//2 - W//4 - disparity:W//2 + W//4 - disparity + 1] = im_right[H//2 - H//4:H//2 + H//4 + 1, W//2 - W//4:W//2 + W//4 + 1]
   
   # filling the hole
-  im_right[H//2 - H//4:H//2 + H//4 + 1, W//2 + W//4 - disparity + 1:W//2 + W//4 + 1] = torch.rand(H//2, disparity)
+  tensor_rand_float = torch.rand(H//2, disparity)
+  zeros = torch.zeros(H//2, disparity)
+  ones = torch.ones(H//2, disparity)
+  hole_fill = torch.where(tensor_rand_float < 0.5, zeros, ones)
+  im_right[H//2 - H//4:H//2 + H//4 + 1, W//2 + W//4 - disparity + 1:W//2 + W//4 + 1] = hole_fill
 
-  im_left = torch.stack((im_left,im_left,im_left),2)
-  im_right = torch.stack((im_right,im_right,im_right),2)
+  im_left = torch.stack(((im_left,) * C), 2)
+  im_right = torch.stack(((im_right,) * C), 2)
 
   ############################################################################
   # Student code begin
