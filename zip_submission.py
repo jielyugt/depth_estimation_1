@@ -37,8 +37,8 @@ if __name__ == '__main__':
   dir_list = yaml.load(open('.zip_dir_list.yml'), Loader=yaml.BaseLoader)
   for dir_name in dir_list['required_directories']:
     copy(dir_name, '/'.join(['temp_submission', dir_name]), True, True)
-  for file_name in dir_list['required_files']:
-    copy(file_name, '/'.join(['temp_submission', file_name]), False, True)
+  #for file_name in dir_list['required_files']:
+    #copy(file_name, '/'.join(['temp_submission', file_name]), False, True)
   for dir_name in dir_list['optional_directories']:
     copy(dir_name, '/'.join(['temp_submission', dir_name]), True, False)
   for file_name in dir_list['optional_files']:
